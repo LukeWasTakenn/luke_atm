@@ -17,9 +17,9 @@ Tested on ESX version V1 Final - I'm not sure if it's going to work on older ver
 The resource also uses [pogressBar](https://forum.cfx.re/t/release-pogress-bar-progress-bar-standalone-smooth-animation/838951) made by Poggu but this is optional and can be toggled in the config.lua file. For the best experience I do however recommend using it, or if you have different progressbars replace the exports in the client.lua file.
 
 ### Download
-[Video Preview](https://youtu.be/TbrRyu25tLI)
+[Video Preview](https://youtu.be/1eo_7qJKqHQ)
 
-If you like the script please think about supporing me by purchasing my other free releases on my [Tebex]() store, as any amount you can give will go a long way of helping me make more stuff like this.
+If you like the script please think about supporing me by purchasing my other free releases on my [Tebex](https://aurorashop.tebex.io/category/scripts) store, as any amount you can give will go a long way of helping me make more stuff like this.
 
 ### How to Install
 1. Download the resource, remove -master from the folder name, place it inside of your resources folder.
