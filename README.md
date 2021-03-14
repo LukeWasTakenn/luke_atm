@@ -2,7 +2,7 @@
 FiveM ATM functionality for ESX framework
 
 ## About
-The script will go through the ATM models that are listen in the config file and see if there is one near you, if there is it will open the UI if there isn't nothing will happen.
+The script will go through the ATM models that are listed in the config file and see if there is one near you, if there is it will open the UI if there isn't nothing will happen.
 
 All the transactions (withdraws, deposits, transfers) you make are going to be saved in the database and you can see them inside of the 'transactions' page on the ATM.
 
