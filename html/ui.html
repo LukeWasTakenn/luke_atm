@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="./app.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <nav>
+            <div class='fleecaImg'></div>
+            <div class='exitButton'></div>
+        </nav>
+
+        <div id="wrapper-main">
+            <div class='bankBalance'>Bank Balance:</div>
+
+            <div class='mainMenu'>
+                <button id='menuButton' class='menuButton1'>Transactions</button>
+                <button id="menuButton" class="menuButton4">Transfer</button>
+                <button id='menuButton' class='menuButton2'>Withdraw</button>
+                <button id='menuButton' class='menuButton3'>Deposit</button>
+            </div>
+        </div>
+        <div id="transactions-main">
+            <div id="transactions-top">
+                <p class='pTransactions'>Transactions</p>
+                <button class='transactionsReturnButton'>Return</button>
+            </div>
+            
+            
+            <ul id="transaction-list">
+
+            </ul>
+        </div>
+    </div>
+
+    <div id="transferBox">
+        <div class="transferInner">
+            <p class="pTransfer">Identification number: </p>
+            <input type="text" id="idTransfer" class="inputTransfer">
+        </div>
+
+        <div class="transferInner">
+            <p class="pTransfer">Amount: </p>
+            <input type="text" id="amountTransfer" class="inputTransfer">
+        </div>
+
+        <div class="transferInner">
+            <p class="pTransfer">Comment: </p>
+            <input type="text" id="commentTransferBoxInput" class="inputTransfer">
+        </div>
+
+        <div class="transferInnerButton">
+            <button class='cancelTransferButton'>Cancel</button>
+            <button class='submitTransferButton'>Submit</button>
+        </div>
+    </div>
+
+    <div id="withdrawBox">
+        <div class='withdrawInner'>
+            <p class='pWithdraw'>Amount: </p>
+            <input type="text" id='amountWithdraw' class='inputWithdraw'>
+        </div>
+
+        <div class='withdrawInner'>
+            <p class='pWithdraw'>Comment: </p>
+            <input type="text" id="commentWithdrawBoxInput" class='inputWithdraw' placeholder="//Comment">
+        </div>
+
+        <div class="withdrawInnerButton">
+            <button class='cancelWithdrawButton'>Cancel</button>
+            <button class='submitWithdrawButton'>Submit</button>
+        </div>
+    </div>
+ 
+    <div id="depositBox">
+        <div class='depositInner'>
+            <p class='pDeposit'>Amount: </p>
+            <input type="text" id='amountDeposit' class='inputDeposit'>
+        </div>
+
+        <div class='depositInner'>
+            <p class='pDeposit'>Comment: </p>
+            <input type="text" id="commentDepositBoxInput" class='inputDeposit' placeholder="//Comment">
+        </div>
+
+        <div class="depositInnerButton">
+            <button class='cancelDepositButton'>Cancel</button>
+            <button class='submitDepositButton'>Submit</button>
+        </div>
+    </div>
+
+</body>
+</html>

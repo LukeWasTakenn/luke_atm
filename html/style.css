@@ -1,0 +1,433 @@
+::selection {
+    background: none;
+}
+
+#container {
+    background-color:rgb(38, 143, 58);
+    width: 1280px;
+    height: 620px;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    display: none;
+}
+
+nav {
+    flex: auto;
+    text-align: center;
+    padding: 10px;
+    background-color: white;
+}
+
+.exitButton {
+    background-image: url(img/exit.png);
+    background-repeat: no-repeat;
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    right: 25px;
+    top: 15px;
+}
+
+.fleecaImg {
+    width: 240px;
+    height: 72px;
+    background-image: url(img/fleecalogo.png);
+    background-repeat: no-repeat;
+}
+
+.mainMenu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 15px;
+    height: 300px;
+}
+
+#menuButton {
+    padding: 20px;
+    margin: 20px;
+    border: white 2px solid;
+    border-radius: 5px;
+    background-color: rgb(38, 143, 58);
+    color: white;
+    font-family: Arial;
+    font-size: 24px;
+    width: 40%;
+    outline: none;
+}
+
+.bankBalance {
+    padding: 5px;
+    margin-top: 25px;
+    text-align: center;
+    font-size: 48px;
+    font-family: Arial;
+    color: white;
+}
+
+#transferBox {
+    display: none;
+    width: 400px;
+    height: 350px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial;
+}
+
+.transferInner {
+    margin: 0 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.transferInnerButton {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px;
+    padding: 10px;
+}
+
+.submitTransferButton {
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(38, 143, 58);
+    color: white;
+    height: 40px;
+    width: 80px;
+    outline: none;
+}
+
+.cancelTransferButton {
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(224, 39, 26);
+    color: white;
+    height: 40px;
+    width: 80px;
+    outline: none;
+}
+
+.cancelTransferButton:hover {
+    background-color: rgb(156, 26, 16);
+}
+
+.submitTransferButton:hover {
+    background-color: rgb(20, 110, 37);
+}
+
+.pTransfer {
+    font-size: 18px;
+    color:rgb(38, 143, 58);
+}
+
+.inputTransfer {
+    border: none;
+    border-bottom: 3px solid rgb(38, 143, 58);
+    font-size: 18px;
+    outline: none;
+}
+
+
+#withdrawBox {
+    display: none;
+    width: 400px;
+    height: 250px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial;
+}
+
+.withdrawInner { 
+    margin: 0 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.withdrawInnerButton {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px;
+    padding: 10px;
+}
+
+.submitWithdrawButton {
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(38, 143, 58);
+    color: white;
+    height: 40px;
+    width: 80px;
+    outline: none;
+}
+
+.cancelWithdrawButton {
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(224, 39, 26);
+    color: white;
+    height: 40px;
+    width: 80px;
+    outline: none;
+}
+
+.cancelWithdrawButton:hover {
+    background-color: rgb(156, 26, 16);
+}
+
+.submitWithdrawButton:hover {
+    background-color: rgb(20, 110, 37);
+}
+
+.pWithdraw {
+    font-size: 18px;
+    color:rgb(38, 143, 58);
+}
+
+.inputWithdraw {
+    border: none;
+    border-bottom: 3px solid rgb(38, 143, 58);
+    font-size: 18px;
+    outline: none;
+}
+
+#depositBox {
+    display: none;
+    width: 400px;
+    height: 250px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial;
+}
+
+.depositInner { 
+    margin: 0 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.depositInnerButton {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px;
+    padding: 10px;
+}
+
+.submitDepositButton {
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(38, 143, 58);
+    color: white;
+    height: 40px;
+    width: 80px;
+    outline: none;
+}
+
+.cancelDepositButton {
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(224, 39, 26);
+    color: white;
+    height: 40px;
+    width: 80px;
+    outline: none;
+}
+
+.cancelDepositButton:hover {
+    background-color: rgb(156, 26, 16);
+}
+
+.submitDepositButton:hover {
+    background-color: rgb(20, 110, 37);
+}
+
+.pDeposit {
+    font-size: 18px;
+    color:rgb(38, 143, 58);
+}
+
+.inputDeposit {
+    border: none;
+    border-bottom: 3px solid rgb(38, 143, 58);
+    font-size: 18px;
+    outline: none;
+}
+
+#transactions-main {
+    display: none;
+}
+
+#transactions-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.pTransactions {
+    color: white;
+    font-size: 36px;
+    font-family: Arial;
+}
+
+.transactionsReturnButton {
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(224, 39, 26);
+    color: white;
+    height: 40px;
+    width: 120px;
+    outline: none;
+    align-self: flex-end;
+    margin-right: 55px;
+}
+
+.transactionsReturnButton:hover {
+    background-color: rgb(156, 26, 16);
+}
+
+#transaction-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 1180px;
+    height: 520px;
+    margin: 0 auto;
+    padding: 0;
+    align-items: center;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.transaction {
+    background-color: white;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    width: 1170px;
+    min-height: 180px;
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+}
+
+.transaction:last-child {
+    margin-bottom: 175px;
+}
+
+.transaction-withdraw {
+    background-image: url(img/withdraw.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 128px;
+    width: 128px;
+    border-right: solid black 5px;
+    margin-left: 15px;
+    padding: 10px;
+}
+
+.transaction-deposit {
+    background-image: url(img/deposit.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 128px;
+    width: 128px;
+    border-right: solid black 5px;
+    margin-left: 15px;
+    padding: 10px;
+}
+
+.transaction-transfer {
+    background-image: url(img/transfer.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 128px;
+    width: 128px;
+    border-right: solid black 5px;
+    margin-left: 15px;
+    padding: 10px;
+}
+
+.transfer-amount {
+    flex: 0.1 0 60px;
+    font-family: Arial;
+    font-size: 28px;
+    text-align: center;
+    align-self: auto;
+    border-right: solid black 5px;
+    padding: 10px;
+    height: 128px;
+}
+
+.transfer-amount-div {
+    flex: 0.1 0 60px;
+    font-family: Arial;
+    font-size: 28px;
+    text-align: center;
+    align-self: auto;
+    padding: 10px;
+    height: 128px;
+}
+
+.transfer-comment {
+    flex: 1;
+    color: black;
+    align-self: baseline;
+    text-align: left;
+    margin-left: 15px;
+    margin-top: 25px;
+}
+
+.transfer-comment-div {
+    flex: 1;
+    color: black;
+    align-self: baseline;
+    text-align: left;
+    padding: 5px;
+    font-size: 24px;
+    height: 100px;
+}
+
+.transfer-withdraw {
+    color: red;
+}
+
+.transfer-deposit {
+    color: green;
+}
+
+.transfer-transfer {
+    color: rgb(0, 132, 255);
+}
