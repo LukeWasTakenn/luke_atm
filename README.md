@@ -24,7 +24,7 @@ Tested on ESX version V1 Final - I'm not sure if it's going to work on older ver
 <a href="https://github.com/ONyambura/mythic_progbar">mythic_progbar</a>
 
 ### Download
-[Updated (1.1.0) Preview](https://streamable.com/38dgs8)
+[Updated (1.1.0) Preview](https://streamable.com/jo9bkv)
 
 ~~[Old Preview](https://youtu.be/1eo_7qJKqHQ)~~
 
