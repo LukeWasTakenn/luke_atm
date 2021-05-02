@@ -24,11 +24,9 @@ Tested on ESX version V1 Final - I'm not sure if it's going to work on older ver
 <a href="https://github.com/ONyambura/mythic_progbar">mythic_progbar</a>
 
 ### Download
-[Updated (1.1.0) Version](https://streamable.com/38dgs8)
+[Updated (1.1.0) Preview](https://streamable.com/38dgs8)
 
 ~~[Old Preview](https://youtu.be/1eo_7qJKqHQ)~~
-
-If you like the script please think about supporing me by purchasing my other free releases on my [Tebex](https://aurorashop.tebex.io/category/scripts) store, as any amount you can give will go a long way of helping me make more stuff like this.
 
 ### How to Install (Updated for 1.1.0)
 1. Download the resource, remove -master from the folder name, place it inside of your resources folder.
