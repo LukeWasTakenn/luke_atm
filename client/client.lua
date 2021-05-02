@@ -2,6 +2,7 @@ local atmFound = false
 local inATM = false
 local show = false
 local refresh = false
+local isAtBank = false
 PlayerData = {}
 ESX = nil
 
@@ -9,6 +10,73 @@ Citizen.CreateThread(function()
     while ESX == nil do
         Citizen.Wait(0)
         TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+    end
+end)
+
+Citizen.CreateThread(function()
+    playerPed = PlayerPedId()
+    playerCoords = GetEntityCoords(playerPed)
+    if Config.EnableBankBlips == true then
+        BankBlips()
+    end
+    while true do
+        Citizen.Wait(500)
+        playerPed = PlayerPedId()
+        playerCoords = GetEntityCoords(playerPed)
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(800)
+        if Config.EnableBanks == true then
+            for k, v in pairs(Config.Banks) do
+                if GetDistanceBetweenCoords(playerCoords, v.x, v.y, v.z) < 1.3 then
+                    currentBank = v
+                    isAtBank = true
+                    break
+                else
+                    isAtBank = false
+                end
+            end
+        end
+        if Config.EnableE == true then
+            for k, v in pairs(Config.Models) do
+                local model = GetHashKey(v)
+                entity = GetClosestObjectOfType(playerCoords.x, playerCoords.y, playerCoords.z, 1.0, model, false, false, false)
+        
+                if entity ~= 0 then
+                    atmFound = true
+                    atmCoords = GetEntityCoords(entity)
+                    break
+                else
+                    atmFound = false
+                end
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        if isAtBank == true or atmFound == true and inATM == false then
+            if isAtBank == true and inATM == false and Config.EnableBanks == true then
+                wait = 0
+                Draw3DText(vector3(currentBank.x, currentBank.y, currentBank.z), '[~g~E~w~] - Access Bank')
+                if IsControlJustReleased(0, 51) then
+                    AccessBank(currentBank.h)
+                end
+            elseif atmFound == true and inATM == false and Config.EnableE == true then
+                wait = 0
+                Draw3DText(atmCoords, '[~g~E~w~] - Access ATM')
+                if IsControlJustReleased(0, 51) then
+                    EnterATM(entity)
+                end
+            end
+        else
+            wait = 500
+        end
+        Citizen.Wait(wait)
     end
 end)
 
@@ -33,9 +101,6 @@ end, false)
 
 RegisterNetEvent('luke_atm:ATMCheck')
 AddEventHandler('luke_atm:ATMCheck', function()
-    playerPed = PlayerPedId()
-    local playerCoords = GetEntityCoords(playerPed)
-
     for k, v in pairs(Config.Models) do
         local model = GetHashKey(v)
         entity = GetClosestObjectOfType(playerCoords.x, playerCoords.y, playerCoords.z, 1.5, model, false, false, false)
@@ -50,18 +115,6 @@ AddEventHandler('luke_atm:ATMCheck', function()
     
     if atmFound == true then
         EnterATM(entity)
-        if Config.UsePogressBars == true then
-            Citizen.Wait(Config.AnimationEnterTime)
-        end
-        inATM = true
-        ESX.TriggerServerCallback('luke_atm:GetBankMoney', function(playerMoney)
-            SetNuiFocus(true, true)
-            SendNUIMessage({
-                type = 'UI',
-                show = true,
-                playerMoney = playerMoney,
-            })
-        end)
     end
 end)
 
@@ -69,7 +122,7 @@ RegisterNetEvent('luke_atm:Refresh')
 AddEventHandler('luke_atm:Refresh', function()
     ESX.TriggerServerCallback('luke_atm:GetBankMoney', function(playerMoney)
     SendNUIMessage({
-        refresh = true,
+        type = 'refresh',
         playerMoney = playerMoney,
     })
     end)
@@ -78,20 +131,19 @@ end)
 RegisterNUICallback('luke_atm:CloseATM', function(data)
     if inATM == true then
         SetNuiFocus(false, false)
-        ClearPedTasks(playerPed)
+        ClearPedTasksImmediately(playerPed)
         CloseATM()
-        inATM = false
     else
         return
     end
 end)
 
 RegisterNUICallback('luke_atm:Withdraw', function(data)
-    TriggerServerEvent('luke_atm:WithdrawMoney', data.withdrawAmount, data.comment, data.type)
+    TriggerServerEvent('luke_atm:WithdrawMoney', data.amount, data.comment, data.type)
 end)
 
 RegisterNUICallback('luke_atm:Deposit', function(data)
-    TriggerServerEvent('luke_atm:DepositMoney', data.depositAmount, data.comment, data.type)
+    TriggerServerEvent('luke_atm:DepositMoney', data.amount, data.comment, data.type)
 end)
 
 RegisterNUICallback('luke_atm:OpenTransactions', function(data)
@@ -107,33 +159,122 @@ RegisterNUICallback('luke_atm:TransferMoney', function(data)
     TriggerServerEvent('luke_atm:TransferMoney', data.id, data.comment, data.amount)
 end)
 
-function EnterATM(entity)
-    if Config.UsePogressBars == true then
-        TaskTurnPedToFaceEntity(playerPed, entity, -1)
-        LoadAnim('amb@prop_human_atm@male@enter')
-        TaskPlayAnim(playerPed, "amb@prop_human_atm@male@enter", "enter", 8.0, -8.0, Config.AnimationEnterTime, 120, 0, false, false, false)
-        exports['pogressBar']:drawBar(Config.AnimationEnterTime, 'Inserting Card', function()
+function AccessBank(heading)
+    inATM = true
+    SetEntityHeading(playerPed, heading)
+    exports['mythic_progbar']:Progress({
+        name = "luke_atm:AccessBank",
+        duration = 1500,
+        label = 'Showing Information',
+        useWhileDead = false,
+        canCancel = false,
+        controlDisables = {
+            disableMovement = true,
+            disableCarMovement = true,
+            disableMouse = false,
+            disableCombat = true,
+        },
+        animation = {
+            animDict = "amb@prop_human_atm@male@enter",
+            anim = "enter",
+            flags = 49,
+        },
+    }, function(cancelled)
+        if not cancelled then
             LoadAnim("amb@prop_human_atm@male@idle_a")
             TaskPlayAnim(playerPed, "amb@prop_human_atm@male@idle_a", "idle_a", 8.0, -8.0, -1, 3, 0, false, false, false)
-        end)
-    else
-        TaskTurnPedToFaceEntity(playerPed, entity, -1)
-        LoadAnim('amb@prop_human_atm@male@enter')
-        TaskPlayAnim(playerPed, "amb@prop_human_atm@male@enter", "enter", 8.0, -8.0, Config.AnimationEnterTime, 120, 0, false, false, false)
-        Citizen.Wait(Config.AnimationEnterTime)
-        LoadAnim("amb@prop_human_atm@male@idle_a")
-        TaskPlayAnim(playerPed, "amb@prop_human_atm@male@idle_a", "idle_a", 8.0, -8.0, -1, 3, 0, false, false, false)
-    end
+            ESX.TriggerServerCallback('luke_atm:GetBankMoney', function(playerMoney)
+                SetNuiFocus(true, true)
+                SendNUIMessage({
+                    type = 'UI',
+                    show = true,
+                    playerMoney = playerMoney,
+                })
+            end)
+        else
+            
+        end
+    end)
+end
+
+function EnterATM(entity)
+    inATM = true
+    TaskTurnPedToFaceEntity(playerPed, entity, -1)
+    exports['mythic_progbar']:Progress({
+        name = "luke_atm:AccessATM",
+        duration = 1500,
+        label = 'Inserting Card',
+        useWhileDead = false,
+        canCancel = false,
+        controlDisables = {
+            disableMovement = true,
+            disableCarMovement = true,
+            disableMouse = false,
+            disableCombat = true,
+        },
+        animation = {
+            animDict = "amb@prop_human_atm@male@enter",
+            anim = "enter",
+            flags = 49,
+        },
+    }, function(cancelled)
+        if not cancelled then
+            LoadAnim("amb@prop_human_atm@male@idle_a")
+            TaskPlayAnim(playerPed, "amb@prop_human_atm@male@idle_a", "idle_a", 8.0, -8.0, -1, 3, 0, false, false, false)
+            ESX.TriggerServerCallback('luke_atm:GetBankMoney', function(playerMoney)
+                SetNuiFocus(true, true)
+                SendNUIMessage({
+                    type = 'UI',
+                    show = true,
+                    playerMoney = playerMoney,
+                })
+            end)
+        else
+            
+        end
+    end)
 end
 
 function CloseATM()
-    if Config.UsePogressBars == true then
-        LoadAnim("amb@prop_human_bbq@male@exit")
-        exports['pogressBar']:drawBar(Config.AnimationExitTime, 'Retrieving Card')
-        TaskPlayAnim(playerPed, "amb@prop_human_bbq@male@exit", "exit", 8.0, -8.0, Config.AnimationExitTime, 120, 0, false, false, false)
-    else
-        LoadAnim("amb@prop_human_bbq@male@exit")
-        TaskPlayAnim(playerPed, "amb@prop_human_bbq@male@exit", "exit", 8.0, -8.0, Config.AnimationExitTime, 120, 0, false, false, false)
+    inATM = false
+    exports['mythic_progbar']:Progress({
+        name = "luke_atm:AccessBank",
+        duration = 1000,
+        label = 'Retrieving Card',
+        useWhileDead = false,
+        canCancel = false,
+        controlDisables = {
+            disableMovement = false,
+            disableCarMovement = false,
+            disableMouse = false,
+            disableCombat = true,
+        },
+        animation = {
+            animDict = "amb@prop_human_bbq@male@exit",
+            anim = "exit",
+            flags = 49,
+        },
+    }, function(cancelled)
+        if not cancelled then
+
+        else
+            
+        end
+    end)
+end
+
+function BankBlips()
+    for k, v in pairs(Config.Banks) do
+        local blip = AddBlipForCoord(v.x, v.y, v.z)
+        SetBlipSprite(blip, 207)
+        SetBlipScale(blip, 0.8)
+        SetBlipColour(blip, 2)
+        SetBlipDisplay(blip, 2)
+        SetBlipAsShortRange(blip, true)
+
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString('Bank')
+        EndTextCommandSetBlipName(blip)
     end
 end
 
@@ -142,4 +283,16 @@ function LoadAnim(dict)
     while (not HasAnimDictLoaded(dict)) do
         Citizen.Wait(0)
     end
+end
+
+function Draw3DText(coords, text)
+	SetDrawOrigin(coords)
+	SetTextScale(0.35, 0.35)
+	SetTextFont(4)
+	SetTextEntry('STRING')
+	SetTextCentre(1)
+	AddTextComponentString(text)
+	DrawText(0.0, 0.0)
+	DrawRect(0.0, 0.0125, 0.015 + text:gsub('~.-~', ''):len() / 370, 0.03, 41, 11, 41, 150)
+	ClearDrawOrigin()
 end

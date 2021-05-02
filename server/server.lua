@@ -14,14 +14,15 @@ RegisterNetEvent('luke_atm:WithdrawMoney')
 AddEventHandler('luke_atm:WithdrawMoney', function(withdrawAmount, comment, type)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
+    withdrawAmount = tonumber(withdrawAmount)
     
     if comment == '' then
         comment = nil
     end
 
-    if xPlayer.getAccount('bank').money >= tonumber(withdrawAmount) then
-        xPlayer.removeAccountMoney('bank', tonumber(withdrawAmount))
-        xPlayer.addMoney(tonumber(withdrawAmount))
+    if xPlayer.getAccount('bank').money >= withdrawAmount then
+        xPlayer.removeAccountMoney('bank', withdrawAmount)
+        xPlayer.addMoney(withdrawAmount)
         TriggerClientEvent('luke_atm:Refresh', src)
         MySQL.Async.execute('INSERT INTO `transactions` (`identifier`, `amount`, `comment`, `type`) VALUES (@identifier, @amount, @comment, @type)', {
             ['@identifier'] = xPlayer.getIdentifier(),
@@ -40,16 +41,17 @@ RegisterNetEvent('luke_atm:DepositMoney')
 AddEventHandler('luke_atm:DepositMoney', function(depositAmount, comment, type)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
+    depositAmount = tonumber(depositAmount)
 
     if comment == '' then
         comment = nil
     end
 
-    if xPlayer.getMoney() < tonumber(depositAmount) then
+    if xPlayer.getMoney() < depositAmount then
         TriggerClientEvent('esx:showHelpNotification', src, "You don't have that much to deposit.")
     else
-        xPlayer.removeMoney(tonumber(depositAmount))
-        xPlayer.addAccountMoney('bank', tonumber(depositAmount))
+        xPlayer.removeMoney(depositAmount)
+        xPlayer.addAccountMoney('bank', depositAmount)
         TriggerClientEvent('luke_atm:Refresh', src)
         MySQL.Async.execute('INSERT INTO `transactions` (`identifier`, `amount`, `comment`, `type`) VALUES (@identifier, @amount, @comment, @type)', {
             ['@identifier'] = xPlayer.getIdentifier(),
@@ -97,12 +99,13 @@ ESX.RegisterServerCallback('luke_atm:FetchTransactions', function(source, callba
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
     local transactions = {}
+    local playerId = xPlayer.getIdentifier()
 
     MySQL.Async.fetchAll('SELECT * FROM `transactions` WHERE `identifier` = @identifier OR `recipient` = @identifier', {
         ['@identifier'] = xPlayer.getIdentifier(),
     }, function(data)
         for k, v in pairs(data) do
-            table.insert(transactions, {comment = v.comment, amount = v.amount, transactionType = v.type, identifier = v.identifier, recipient = v.recipient})
+            table.insert(transactions, {comment = v.comment, amount = v.amount, transactionType = v.type, identifier = v.identifier, recipient = v.recipient, pid = playerId})
         end
         callback(transactions)
     end)
