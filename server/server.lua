@@ -101,7 +101,7 @@ ESX.RegisterServerCallback('luke_atm:FetchTransactions', function(source, callba
     local transactions = {}
     local playerId = xPlayer.getIdentifier()
 
-    MySQL.Async.fetchAll('SELECT * FROM `transactions` WHERE `identifier` = @identifier OR `recipient` = @identifier', {
+    MySQL.Async.fetchAll('SELECT * FROM `transactions` WHERE `identifier` = @identifier OR `recipient` = @identifier ORDER BY `id` DESC', {
         ['@identifier'] = xPlayer.getIdentifier(),
     }, function(data)
         for k, v in pairs(data) do

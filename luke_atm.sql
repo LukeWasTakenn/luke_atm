@@ -6,4 +6,4 @@ CREATE TABLE transactions (
   recipient varchar(40) DEFAULT NULL,
   type tinytext DEFAULT NULL,
   PRIMARY KEY (id)
-)
+);

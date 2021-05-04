@@ -27,7 +27,6 @@ window.addEventListener('message', function(event) {
 
     if (item.type == 'fetchTransactions') {
         transactions = item.playerTransactions
-        transactions.reverse()
 
         ShowTransactions()
     }
