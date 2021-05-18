@@ -4,7 +4,7 @@ game 'gta5'
 
 author 'Luke - https://github.com/LukeWasTakenn'
 description 'ATM script for ESX framework'
-version '1.1.3'
+version '1.1.4'
 
 ui_page 'html/ui.html'
 
