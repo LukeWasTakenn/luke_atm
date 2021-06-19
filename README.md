@@ -17,11 +17,11 @@ As of 1.1.0 you can toggle E in the config, which enables or disables the abilit
 Tested on ESX version V1 Final - I'm not sure if it's going to work on older versions, most likely not. You would have to change the way the identifiers and money functions are in the server script, shouldn't be too difficult but I will offer no support in it.
 
 
-### Requirements (As of 1.1.0)
+### Requirements
 <a href="https://github.com/ONyambura/mythic_progbar">mythic_progbar</a>
 
 ### Download
-[Updated (1.1.0) Preview](https://streamable.com/jo9bkv)
+[Video Showcase](https://streamable.com/jo9bkv)
 
 
 ### How to Install
