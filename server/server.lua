@@ -95,6 +95,13 @@ AddEventHandler('luke_atm:TransferMoney', function(id, comment, amount)
     end
 end)
 
+ESX.RegisterServerCallback('luke_atm:FetchPlayerCash', function(source, callback)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local cash = xPlayer.getMoney()
+
+    callback(cash)
+end)
+
 ESX.RegisterServerCallback('luke_atm:FetchTransactions', function(source, callback)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)

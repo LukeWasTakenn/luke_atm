@@ -128,6 +128,15 @@ AddEventHandler('luke_atm:Refresh', function()
     end)
 end)
 
+RegisterNUICallback('luke_atm:GetPlayerCash', function(data)
+    ESX.TriggerServerCallback('luke_atm:FetchPlayerCash', function(cash)
+        SendNUIMessage({
+            type = 'depositCash',
+            cash = cash
+        })
+    end)
+end)
+
 RegisterNUICallback('luke_atm:CloseATM', function(data)
     if inATM == true then
         SetNuiFocus(false, false)

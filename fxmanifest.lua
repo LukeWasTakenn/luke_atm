@@ -4,19 +4,20 @@ game 'gta5'
 
 author 'Luke - https://github.com/LukeWasTakenn'
 description 'ATM script for ESX framework'
-version '1.1.4'
+version '1.2.0'
 
 ui_page 'html/ui.html'
 
 client_scripts {
-    'client/client.lua',
-    'config.lua'
+    'config.lua',
+    'client/client.lua'
 }
 
 server_scripts {
     '@mysql-async/lib/MySQL.lua',
-    'server/server.lua',
     'config.lua',
+    'server/version_check.lua',
+    'server/server.lua'
 }
 
 files {

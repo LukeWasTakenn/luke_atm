@@ -19,6 +19,7 @@ window.addEventListener('message', function(event) {
         if (item.show == true) {
             money = NumberWithCommas(item.playerMoney)
             $('.money').text('$' + money)
+            $('.withdraw-cash-money').text('$' + money)
             $('#container').fadeIn()
         } else {
             $('#container').hide()
@@ -34,6 +35,12 @@ window.addEventListener('message', function(event) {
     if (item.type == 'refresh') {
         money = NumberWithCommas(item.playerMoney)
         $('.money').text('$' + money)
+        $('.withdraw-cash-money').text('$' + money)
+    }
+
+    if (item.type == 'depositCash') {
+        cash = NumberWithCommas(item.cash)
+        $('.deposit-cash-money').text('$' + cash)
     }
 })
 
@@ -46,6 +53,7 @@ $(document).on('click', '.btn-primary', function() {
     if ($(this).hasClass('btn-deposit')) {
         $('#main').fadeOut()
         $('#deposit').fadeIn()
+        $.post('https://luke_atm/luke_atm:GetPlayerCash')
     } else if ($(this).hasClass('btn-withdraw')) {
         $('#main').fadeOut()
         $('#withdraw').fadeIn()
@@ -140,7 +148,6 @@ $(document).on('click', '.nav-btn', function() {
         $.post('https://luke_atm/luke_atm:OpenTransactions')
     }
 })
- 
 
 function ShowTransactions() {
     var i;

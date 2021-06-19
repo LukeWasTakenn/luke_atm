@@ -17,3 +17,5 @@ Config.Banks = {
     {x = -2963.08, y = 483.05, z = 15.70, h = 270.71}, 
 }
 
+Config.EnableVersionCheck = true -- Prints in console if your resource is out of date
+Config.VersionCheckInterval = 60 -- in minutes, ignore if above is set to true
