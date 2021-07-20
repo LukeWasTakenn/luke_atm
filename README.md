@@ -16,15 +16,19 @@ As of 1.1.0 you can toggle E in the config, which enables or disables the abilit
 
 Tested on ESX version V1 Final - I'm not sure if it's going to work on older versions, most likely not. You would have to change the way the identifiers and money functions are in the server script, shouldn't be too difficult but I will offer no support in it.
 
+~~Optionals~~
 
-### Requirements
+~~The resource also uses [pogressBar](https://forum.cfx.re/t/release-pogress-bar-progress-bar-standalone-smooth-animation/838951) made by Poggu but this is optional and can be toggled in the config.lua file. For the best experience I do however recommend using it, or if you have different progressbars replace the exports in the client.lua file.~~
+
+### Requirements (As of 1.1.0)
 <a href="https://github.com/ONyambura/mythic_progbar">mythic_progbar</a>
 
 ### Download
-[Video Showcase](https://streamable.com/jo9bkv)
+[Updated (1.1.0) Preview](https://streamable.com/jo9bkv)
 
+~~[Old Preview](https://youtu.be/1eo_7qJKqHQ)~~
 
-### How to Install
+### How to Install (Updated for 1.1.0)
 1. Download the resource, remove -master from the folder name, place it inside of your resources folder.
 2. Download mythic_progbar, do the same as above.
 3. Import the .sql file into your database.

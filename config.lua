@@ -2,8 +2,6 @@ Config = {}
 
 Config.Models = {'prop_atm_01', 'prop_atm_02', 'prop_fleeca_atm', 'prop_atm_03'}
 
-Config.EnableE = true -- If enabled you can press E near an ATM and use it, if enabled it will impact the CPU msec (0.02-0.03 with it on)
-
 Config.EnableBanks = true -- Whether or not you want the UI to be accessible from banks
 Config.EnableBankBlips = true
 

@@ -3,6 +3,8 @@ local inATM = false
 local show = false
 local refresh = false
 local isAtBank = false
+local notified = false
+local hidden = true
 PlayerData = {}
 ESX = nil
 
@@ -28,30 +30,33 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(800)
+        Citizen.Wait(1000)
         if Config.EnableBanks == true then
             for k, v in pairs(Config.Banks) do
-                if GetDistanceBetweenCoords(playerCoords, v.x, v.y, v.z) < 1.3 then
+                local coords = vector3(v.x, v.y, v.z)
+                local distance = #(playerCoords - coords)
+
+                if distance < 1.3 then
                     currentBank = v
                     isAtBank = true
+                    hidden = false
                     break
                 else
                     isAtBank = false
                 end
             end
         end
-        if Config.EnableE == true then
-            for k, v in pairs(Config.Models) do
-                local model = GetHashKey(v)
-                entity = GetClosestObjectOfType(playerCoords.x, playerCoords.y, playerCoords.z, 1.0, model, false, false, false)
-        
-                if entity ~= 0 then
-                    atmFound = true
-                    atmCoords = GetEntityCoords(entity)
-                    break
-                else
-                    atmFound = false
-                end
+        for k, v in pairs(Config.Models) do
+            local model = GetHashKey(v)
+            entity = GetClosestObjectOfType(playerCoords.x, playerCoords.y, playerCoords.z, 1.0, model, false, false, false)
+    
+            if entity ~= 0 then
+                atmFound = true
+                atmCoords = GetEntityCoords(entity)
+                hidden = false
+                break
+            else
+                atmFound = false
             end
         end
     end
@@ -62,19 +67,30 @@ Citizen.CreateThread(function()
         if isAtBank == true or atmFound == true and inATM == false then
             if isAtBank == true and inATM == false and Config.EnableBanks == true then
                 wait = 0
-                Draw3DText(vector3(currentBank.x, currentBank.y, currentBank.z), '[~g~E~w~] - Access Bank')
+                if not notified then
+                    TriggerEvent('luke_textui:ShowUI', 'E - Access Bank')
+                    notified = true
+                end
                 if IsControlJustReleased(0, 51) then
                     AccessBank(currentBank.h)
                 end
-            elseif atmFound == true and inATM == false and Config.EnableE == true then
+            elseif atmFound == true and inATM == false then
                 wait = 0
-                Draw3DText(atmCoords, '[~g~E~w~] - Access ATM')
                 if IsControlJustReleased(0, 51) then
                     EnterATM(entity)
+                end
+                if not notified then
+                    TriggerEvent('luke_textui:ShowUI', 'E - Use ATM')
+                    notified = true
                 end
             end
         else
             wait = 500
+            if notified and not hidden then
+                hidden = true
+                notified = false
+                TriggerEvent('luke_textui:HideUI')
+            end
         end
         Citizen.Wait(wait)
     end
@@ -292,16 +308,4 @@ function LoadAnim(dict)
     while (not HasAnimDictLoaded(dict)) do
         Citizen.Wait(0)
     end
-end
-
-function Draw3DText(coords, text)
-	SetDrawOrigin(coords)
-	SetTextScale(0.35, 0.35)
-	SetTextFont(4)
-	SetTextEntry('STRING')
-	SetTextCentre(1)
-	AddTextComponentString(text)
-	DrawText(0.0, 0.0)
-	DrawRect(0.0, 0.0125, 0.015 + text:gsub('~.-~', ''):len() / 370, 0.03, 41, 11, 41, 150)
-	ClearDrawOrigin()
 end
